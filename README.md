@@ -23,10 +23,11 @@ Given the rather off-chain nature of Mina state there could also be a NFT standa
 public balanceOf(address: Publickey) : UInt64;
 public ownerOf(tokenId: UInt64): PublicKey; 
 public transferFrom(from: PublicKey, to: PublicKey, tokenId: UInt64): void;
+public transferFrom(from: PublicKey, to: PublicKey, tokenId: UInt64, ...merkleData): void;
 public approve(to: PublicKey, tokenId: UInt64): void;
-public setApprovalForAll(operator: PublicKey, approved: Bool): void;
+public setApprovalForAll(operator: PublicKey, approved: Bool, ...merkleData): void;
 public getApproved(tokenId: UInt64): PublicKey;
-public isApprovedForAll(owner: PublicKey, operator: PublicKey): Bool;
+public isApprovedForAll(owner: PublicKey, operator: PublicKey, ...merkleData): Bool;
 public name(): string;
 public symbol(): string;
 public tokenURI (tokenId: UInt64): string;
@@ -40,7 +41,10 @@ Besides the function described above the efficient integration of NFTs in (offch
 
 Note: depending on the ability to map on-chain from tokenId to NftAccount and from/to to OwnerInfoAccount (see Design) we might be reliable to add more arguments to the above described functions. These would be stored offchain and e.g. emitted as event.
 
+Note: `setApprovalForAll` and `isApprovedForAll` rely on off-chain state and a merkle root (simplified 'merkleData'). Therefore transferFrom is reliant on off-chain state and a merkle root as well, IF it is called by an approvedForAll operator.
+
 ```javascript
+
 
 class Transfer extends Struct({ from: PublicKey, to: Publickey, tokenId: UInt64 }) {}
 class Approval extends Struct({ owner: PublicKey, approved: Publickey, tokenId: UInt64 }) {}
