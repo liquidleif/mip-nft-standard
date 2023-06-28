@@ -4,7 +4,7 @@ The following proposal will describe a standard for NFTs on Mina. Core of the st
 
 The following interface tries to stay close to the EVM ERC721 Standard, given its popularity and the large number of developers familiar with it. 
 
-State will be handled fully onchain. 
+State will be handled preferably onchain. 
 
 ### Table of contents: 
 - Interface
