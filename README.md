@@ -62,7 +62,7 @@ class ApprovalForAll extends Struct({ owner: PublicKey, operator: Publickey, app
 
 The most obvious challenge is the limited on-chain state per zkApp account. Saving the full state (e.g. ownerships and approvals) of an NFT contract in a single zkApp is not possible without utilisation of Merkle Maps or Trees. These, however, would lead to race conditions where transfers (which include mints and burns) rely on the most-up-to-date merkle root, which is again influenced by other transfers. A multitude of invalid proofs and therefore failed transactions in times of high collection-throughput would be the result. 
 
-An supposedly obvious approach to solve that challenge might be a design that relies on the creation of one custom token per NFT. This would, however, lead to a account creation fee of 1 Mina on nearly every transfer. The only expection to this would be the transfer of an NFT to an account that already held that NFT in the past, since no new account would be created. 
+An supposedly obvious approach to solve that challenge might be a design that relies on the creation of one custom token per NFT. This would, however, lead to a account creation fee of 1 Mina on nearly every transfer. The only exception to this would be the transfer of an NFT to an account that already held that NFT in the past, since no new account would be created. 
 
 Another challenge is the efficient tracking of balances. 
 
