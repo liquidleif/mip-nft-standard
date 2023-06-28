@@ -107,7 +107,7 @@ State:
 ```javascript
     @state(PublicKey) owner = State<PublicKey>();
     @state(UInt64) tokenId = State<UInt64>();
-    @state(Field) approval = State<PublicKey>();
+    @state(PublicKey) approval = State<PublicKey>();
 ```
 
 
