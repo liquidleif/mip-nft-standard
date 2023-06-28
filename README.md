@@ -33,7 +33,7 @@ public symbol(): string;
 public tokenURI (tokenId: UInt64): string;
 ```
 
-As in the ERC721 standard, the `mint` and `burn` functions are not part of the standard. Looking at the Ethereum NFT ecosystem there are a multitude of different implementations for these functions and they play no role in the functionality of the applications most reliant on the Standard (marketplaces and indexing solutions). 
+As in the ERC721 standard, the `mint` and `burn` functions are not part of the standard. Looking at the Ethereum NFT ecosystem there are a multitude of different implementations for these functions and they play no role in the functionality of the applications most reliant on a standardized interface (marketplaces and indexing solutions). 
 
 They are, however, part of the exemplary implementation.
 
