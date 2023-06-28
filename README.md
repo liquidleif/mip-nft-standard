@@ -17,7 +17,7 @@ State will be handled preferably onchain.
 
 As described the interface is based on the ERC721 standard as it is a proven concept. 
 
-Given the rather off-chain nature of Mina state there could also be a NFT standard that e.g. tries to provide functionality in the privacy-area. However, this does not (yet) seem to be a sought-after feature in the existing NFT ecosystem. 
+Given the rather off-chain nature of Mina state there could also be a NFT standard that e.g. tries to provide more functionality in the privacy-area. However, this does not (yet) seem to be a sought-after feature in the existing NFT ecosystem. 
 
 ```javascript
 public balanceOf(address: Publickey) : UInt64;
@@ -33,7 +33,7 @@ public symbol(): string;
 public tokenURI (tokenId: UInt64): string;
 ```
 
-As in the ERC721 standard, the `mint` and `burn` functions are not part of the standard. Looking at the Ethereum NFT ecosystem there are a multitude of different implementations for these functions and they play no role in the functionality of the applications most reliant on a standardized interface (marketplaces and indexing solutions). 
+As in the ERC721 standard, the `mint` and `burn` functions are not part of the interface standard. Looking at the Ethereum NFT ecosystem there are a multitude of different implementations for these functions and they play no role in the functionality of the applications most reliant on a standardized interface (marketplaces and indexing solutions). 
 
 They are, however, part of the exemplary implementation.
 
