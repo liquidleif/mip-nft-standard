@@ -67,7 +67,7 @@ Another challenge is the efficient tracking of balances.
 The following design describes an implemenation of the standard that relies on separation of (on-chain) state across three different types of zkApps. 
 
 
-### Collection: 
+### CollectionAccount: 
 - exists once per collection
 - holds name, symbol, totalSupply of the collection 
 - hosts the above described functions and proxies them to the nftAccounts (if necessary)
