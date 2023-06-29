@@ -39,7 +39,7 @@ They are, however, part of the exemplary implementation.
 
 Besides the function described above the efficient integration of NFTs in (offchain-) applications relies on the ability to index the state of the nft contract. The ERC721 standard relies on the following events, which also seem appropriate for this standard. 
 
-Note: depending on the ability to map on-chain from tokenId to NftAccount and from/to to OwnerInfoAccount (see Design) we might be reliable to add more arguments to the above described functions. These would be stored offchain and e.g. emitted as event.
+Note: depending on the ability to map on-chain from tokenId to NftAccount and from/to to OwnerInfoAccount (see Design) we might be reliable to add more arguments to the above described functions. These would be stored offchain and e.g. emitted as event in the case of NftAccount or OwnerInfoAccount creation.
 
 Note: `setApprovalForAll` and `isApprovedForAll` rely on off-chain state and a merkle root (simplified 'merkleData'). Therefore transferFrom is reliant on off-chain state and a merkle root as well, IF it is called by an approvedForAll operator.
 
