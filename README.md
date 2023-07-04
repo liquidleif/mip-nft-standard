@@ -1,21 +1,49 @@
-# mip-nft-standard
+# MIP-721: Non-Fungible Token Standard
 
-The following proposal will describe a standard for NFTs on Mina. Core of the standard is the functionality for accounts to "hold" and transfer NFTs. Both externally owned accounts and smart contract accounts should be able to access the full functionality.
+---
+mip: 721
+title: Non-Fungible Token Standard
+description: A standardized interface for the functionality for accounts to "hold" and transfer NFTs. 
+author: Leif L. (@etherleif), Sebastian G. (@onchainguy-eth)
+discussions-to: <new topic on https://forums.minaprotocol.com/ is awaiting approval>
+status: Draft
+type: tbd
+created: 2023-28-06
+---
 
-The following interface tries to stay close to the EVM ERC721 Standard, given its popularity and the large number of developers familiar with it. 
+## Abstract
+This MIP describes a standard for NFTs based on smart contracts on Mina. It provides a standardized interface and defines the basic mechanisms regarding holding and transferring NFTs. 
+
+Looking mainly (but not exclusively) at the Ethereum and Solana NFT ecosystem, the most popular use cases for NFTs so far are 
+- digital collectibles & art (e.g. CryptoPunks, DeGods, Autoglyphs) 
+- decentralized finance (e.g. Uniswap V3 LP NFTs)
+- gaming (e.g. Axie Infinity, Sorare)
+
+The intended users of the NFTs as of today therefore would primarily be 
+- collectors and traders of digital art and collectibles
+- decentralized finance users that profit from the functionality that NFTs can offer for defi protocols 
+- user that participate in games with onchain functionality 
+
+## Motivation 
+Without a dedicated standard for NFTs on Mina it is very unlikely that the NFT ecosystem will be able to grow and thrive. 
+
+The history of ERC721, the most-adopted NFT standard on Ethereum has shown how a successful standard enables 
+- the onboarding of 100s of thousands of users into NFTs via integration into wallets and marketplaces (e.g. Metamask, Trust Wallet, OpenSea)
+- a multitude of applications to be built on top of it (e.g. indexing solutions, fractionalization, nftFi solutions like lending)
+- artists, communities and game developers to experiment with new forms of art and collectibles (e.g. Autoglyphs, DeGods, Sorare).
+
+It furthermore has shown the importance to define the standard in a way that enables innovation and experimentation. Its flexibility regarding implementation enabled for example the creation of 
+- Autoglyphs (generative art) 
+- ERC721a (gas optimization) 
+- Checks.art (composable art).
+
+Given that success of the ERC721 standard and also its popularity and the large number of developers familiar with it, it seems reasonable to base the Mina NFT standard on it.
 
 State will be handled preferably onchain. 
 
-### Table of contents: 
-- Interface
-- Challenges 
-    - Account Creation Fee 
-- Design 
-- Exemplary implementation
+## Specification 
 
-## Interface 
-
-As described the interface is based on the ERC721 standard as it is a proven concept. 
+As described in the Motivation the interface is based on the ERC721 standard.
 
 Given the rather off-chain nature of Mina state there could also be a NFT standard that e.g. tries to provide functionality in the privacy-area. However, this does not (yet) seem to be a sought-after feature in the existing NFT ecosystem. 
 
@@ -58,7 +86,8 @@ class ApprovalForAll extends Struct({ owner: PublicKey, operator: Publickey, app
   };
 ```
 
-## Challenges
+## Rationale
+
 
 The most obvious challenge is the limited on-chain state per zkApp account. Saving the full state (e.g. ownerships and approvals) of an NFT contract in a single zkApp is not possible without utilisation of Merkle Maps or Trees. These, however, would lead to race conditions where transfers (which include mints and burns) rely on the most-up-to-date merkle root, which is again influenced by other transfers. A multitude of invalid proofs and therefore failed transactions in times of high collection-throughput would be the result. 
 
@@ -66,7 +95,10 @@ An supposedly obvious approach to solve that challenge might be a design that re
 
 Another challenge is the efficient tracking of balances. 
 
-## Design 
+## Test Cases 
+<Will be part of the example implementation>
+
+## Reference Implementation 
 
 The following design describes an implemenation of the standard that relies on separation of (on-chain) state across three different types of zkApps. 
 
@@ -109,6 +141,12 @@ State:
     @state(UInt64) tokenId = State<UInt64>();
     @state(Field) approval = State<PublicKey>();
 ```
+
+
+## Security Considerations
+
+## Copyright
+Copyright and related rights waived via CC0.
 
 
 # Open 
