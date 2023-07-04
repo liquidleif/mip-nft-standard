@@ -24,6 +24,8 @@ The intended users of the NFTs as of today therefore would primarily be
 - decentralized finance users that profit from the functionality that NFTs can offer for defi protocols 
 - user that participate in games with onchain functionality 
 
+The typical individuals representing these users are regular web3 users equipped with a wallet who are familiar with the concept of NFTs and have a basic understanding of the underlying technology. 
+
 ## Motivation 
 Without a dedicated standard for NFTs on Mina it is very unlikely that the NFT ecosystem will be able to grow and thrive. 
 
@@ -96,7 +98,7 @@ An supposedly obvious approach to solve that challenge might be a design that re
 Another challenge is the efficient tracking of balances. 
 
 ## Test Cases 
-<Will be part of the example implementation>
+[wip] Will be part of the example implementation
 
 ## Reference Implementation 
 
@@ -142,15 +144,12 @@ State:
     @state(Field) approval = State<PublicKey>();
 ```
 
-
 ## Security Considerations
+[wip] 
 
 ## Copyright
 Copyright and related rights waived via CC0.
 
-
-# Open 
-- is there a way to deterministically create zkApp accounts from the collection zkApp account. That would allow for a very efficient onchain mapping from tokenId to NftAccount. Otherwise this has to happen offchain. The ` getAccountOf(address: PublicKey)` method of the fungible token standard might lead into the right direction here.
 
 
 
