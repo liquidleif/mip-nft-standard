@@ -41,8 +41,6 @@ It furthermore has shown the importance to define the standard in a way that ena
 
 Given that success of the ERC721 standard and also its popularity and the large number of developers familiar with it, it seems reasonable to base the Mina NFT standard on it.
 
-State will be handled preferably onchain. 
-
 ## Specification 
 
 As described in the Motivation the interface is based on the ERC721 standard.
