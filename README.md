@@ -107,11 +107,13 @@ Another challenge is the efficient tracking of balances.
 
 The following design describes an implementation of the standard that relies on separation of (on-chain) state across three different smart contracts. 
 
-This partioning of state is very close to popular ERC721 implementations on Ethereum, like the one from [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol), whose state (besides name and symbol) essentialy consists of four mappings: 
-- from tokenId to owner
-- from tokenId to approved address
-- from owner to number of owned tokens
-- from owner to approved operators 
+This partioning of state across these three contracts is very close to popular ERC721 implementations on Ethereum, like the one from [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol), whose state (besides name and symbol) essentialy consists of four mappings and two string variables: 
+- from tokenId to owner (moved to NftAccount)
+- from tokenId to approved address (moved to NftAccount)
+- from owner to number of owned tokens (moved to OwnerInfoAccount)
+- from owner to approved operators (moved to OwnerInfoAccount)
+- name (moved to CollectionAccount)
+- symbol (moved to CollectionAccount)
 
 The advantage of an alignment with this proven approach is that, again, many developers from the Ethereum and EVM ecosystem will be easily able to understand the implementation. 
 
@@ -131,7 +133,7 @@ State:
 ```javascript
     @state(Field) name = State<Field>();
     @state(Field) symbol = State<Field>();
-    @state(UInt64) totalSupply = State<UInt64>();
+    @state(UInt64) totalSupply = State<UInt64>(); // optional
 ```
 
 ### OwnerInfoAccount
@@ -153,7 +155,7 @@ State:
 
 State:
 ```javascript
-    @state(PublicKey) owner = State<PublicKey>();
+    @state(PublicKey) ownerAddress = State<PublicKey>();
     @state(UInt64) tokenId = State<UInt64>();
     @state(PublicKey) approval = State<PublicKey>();
 ```
