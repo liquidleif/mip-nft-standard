@@ -4,7 +4,7 @@
 mip: 721  
 title: Non-Fungible Token Standard  
 description: A standardized interface for the functionality for accounts to "hold" and transfer NFTs.   
-author: Leif L. (@etherleif), Sebastian G. (@onchainguy-eth)  
+author: Leif L. [(@etherleif)](https://github.com/etherleif), Sebastian G. [(@onchainguy-eth)](https://github.com/onchainguy-eth)  
 discussions-to: <new topic on https://forums.minaprotocol.com/ is awaiting approval>  
 status: Draft  
 type: tbd  
@@ -47,6 +47,11 @@ As described in the Motivation the interface is based on the ERC721 standard.
 
 Given the rather off-chain nature of Mina state there could also be a NFT standard that e.g. tries to provide more functionality in the privacy-area. However, this does not (yet) seem to be a sought-after feature in the existing NFT ecosystem. 
 
+The following interface 
+- is meant to be as close as possible to the ERC721 standard 
+- focusses on the functionality that is most relevant for the most popular use cases of NFTs and their integration into wallets and marketplaces
+- is explicitely extendable to enable innovation and experimentation. 
+
 ```javascript
 public balanceOf(address: Publickey) : UInt64;
 public ownerOf(tokenId: UInt64): PublicKey; 
@@ -67,9 +72,6 @@ They are, however, part of the exemplary implementation.
 
 Besides the function described above the efficient integration of NFTs in (offchain-) applications relies on the ability to index the state of the nft contract. The ERC721 standard relies on the following events, which also seem appropriate for this standard. 
 
-Note: depending on the ability to map on-chain from tokenId to NftAccount and from/to to OwnerInfoAccount (see Design) we might be reliable to add more arguments to the above described functions. These would be stored offchain and e.g. emitted as event in the case of NftAccount or OwnerInfoAccount creation.
-
-Note: `setApprovalForAll` and `isApprovedForAll` rely on off-chain state and a merkle root (simplified 'merkleData'). Therefore transferFrom is reliant on off-chain state and a merkle root as well, IF it is called by an approvedForAll operator.
 
 ```javascript
 
@@ -86,8 +88,11 @@ class ApprovalForAll extends Struct({ owner: PublicKey, operator: Publickey, app
   };
 ```
 
-## Rationale
+Note: depending on the ability to map on-chain from tokenId to NftAccount and from/to to OwnerInfoAccount (see Design) we might be reliable to add more arguments to the above described functions. These would be stored offchain and e.g. emitted as event in the case of NftAccount or OwnerInfoAccount creation.
 
+Note: `setApprovalForAll` and `isApprovedForAll` rely on off-chain state and a merkle root (simplified 'merkleData'). Therefore transferFrom is reliant on off-chain state and a merkle root as well, IF it is called by an approvedForAll operator.
+
+## Rationale [wip]
 
 The most obvious challenge is the limited on-chain state per zkApp account. Saving the full state (e.g. ownerships and approvals) of an NFT contract in a single zkApp is not possible without utilisation of Merkle Maps or Trees. These, however, would lead to race conditions where transfers (which include mints and burns) rely on the most-up-to-date merkle root, which is again influenced by other transfers. A multitude of invalid proofs and therefore failed transactions in times of high collection-throughput would be the result. 
 
@@ -100,8 +105,21 @@ Another challenge is the efficient tracking of balances.
 
 ## Reference Implementation 
 
-The following design describes an implemenation of the standard that relies on separation of (on-chain) state across three different types of zkApps. 
+The following design describes an implementation of the standard that relies on separation of (on-chain) state across three different smart contracts. 
 
+This partioning of state across these three contracts is very close to popular ERC721 implementations on Ethereum, like the one from [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol), whose state (besides name and symbol) essentialy consists of four mappings and two string variables: 
+- from tokenId to owner (moved to NftAccount)
+- from tokenId to approved address (moved to NftAccount)
+- from owner to number of owned tokens (moved to OwnerInfoAccount)
+- from owner to approved operators (moved to OwnerInfoAccount)
+- name (moved to CollectionAccount)
+- symbol (moved to CollectionAccount)
+
+The advantage of an alignment with this proven approach is that, again, many developers from the Ethereum and EVM ecosystem will be easily able to understand the implementation. 
+
+A further advantage is that other smart contracts on the Mina blockchain can easily interact with the NFT contract since the state is mainly onchain. This also makes data-availability to an non-issue for the involved users and 3rd parties. 
+
+The approvalForAllRoot of the OwnerInfoAccount is the only exception to this. This might seem as a problem at first, but the most popular use case (so far) of the approvalForAll functionality is the integration of NFTs in marketplaces, which usually rely on off-chain state (provided by the fulfiller of an order) anyway for gasless listings. 
 
 ### CollectionAccount: 
 - exists once per collection
@@ -115,7 +133,7 @@ State:
 ```javascript
     @state(Field) name = State<Field>();
     @state(Field) symbol = State<Field>();
-    @state(UInt64) totalSupply = State<UInt64>();
+    @state(UInt64) totalSupply = State<UInt64>(); // optional
 ```
 
 ### OwnerInfoAccount
@@ -137,10 +155,12 @@ State:
 
 State:
 ```javascript
-    @state(PublicKey) owner = State<PublicKey>();
+    @state(PublicKey) ownerAddress = State<PublicKey>();
     @state(UInt64) tokenId = State<UInt64>();
     @state(PublicKey) approval = State<PublicKey>();
 ```
+
+A proof of concept implementation is currently under development.
 
 ## Security Considerations
 [wip] 
