@@ -4,7 +4,7 @@
 mip: 721  
 title: Non-Fungible Token Standard  
 description: A standardized interface for the functionality for accounts to "hold" and transfer NFTs.   
-author: Leif L. (@etherleif), Sebastian G. (@onchainguy-eth)  
+author: Leif L. [(@etherleif)](https://github.com/etherleif), Sebastian G. [(@onchainguy-eth)](https://github.com/onchainguy-eth)  
 discussions-to: <new topic on https://forums.minaprotocol.com/ is awaiting approval>  
 status: Draft  
 type: tbd  
