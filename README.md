@@ -1,6 +1,6 @@
 # MIP-721: Non-Fungible Token Standard 
 
-`---`  
+\---  
 mip: 721  
 title: Non-Fungible Token Standard  
 description: A standardized interface for the functionality for accounts to "hold" and transfer NFTs.   
@@ -9,7 +9,7 @@ discussions-to: <new topic on https://forums.minaprotocol.com/ is awaiting appro
 status: Draft  
 type: tbd  
 created: 2023-28-06  
-`---`  
+\---   
 
 ## Abstract
 This MIP describes a standard for NFTs based on smart contracts on Mina. It provides a standardized interface and defines the basic mechanisms regarding holding and transferring NFTs. 
